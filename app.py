@@ -14,9 +14,9 @@ def index():
     messages = result.fetchall()
     return render_template("index.html", count=len(messages), messages=messages) 
 
-@app.route("/new")
+@app.route("/new_area")
 def new():
-    return render_template("new.html")
+    return render_template("new_area.html")
 
 @app.route("/add_discussion_area", methods=["POST"])
 def add_discussion_area():
@@ -25,4 +25,5 @@ def add_discussion_area():
     db.session.execute(sql, {"content":content})
     db.session.commit()
     return redirect("/")
+
 
