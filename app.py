@@ -10,9 +10,9 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    result = db.session.execute(text("SELECT content FROM messages"))
-    messages = result.fetchall()
-    return render_template("index.html", count=len(messages), messages=messages) 
+    result = db.session.execute(text("SELECT content FROM areas"))
+    areas = result.fetchall()
+    return render_template("index.html", count=len(areas), areas=areas) 
 
 @app.route("/new_area")
 def new():
@@ -21,9 +21,7 @@ def new():
 @app.route("/add_discussion_area", methods=["POST"])
 def add_discussion_area():
     content = request.form["content"]
-    sql = text("INSERT INTO messages (content) VALUES (:content)")
+    sql = text("INSERT INTO areas (content) VALUES (:content)")
     db.session.execute(sql, {"content":content})
     db.session.commit()
     return redirect("/")
-
-

@@ -1,7 +1,7 @@
 keskustelualueiden määrä: {{ count }}
 <hr>
-{% for message in messages %}
-{{ message.content }}
+{% for area in areas %}
+{{ area.content }}
 <hr>
 {% endfor %}
 <a href="/new_area">Lisää keskustelualue</a>
