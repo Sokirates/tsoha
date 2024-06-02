@@ -1,7 +1,9 @@
 keskustelualueiden määrä: {{ count }}
 <hr>
 {% for area in areas %}
-{{ area.content }}
+Aihe: {{ area.topic }} <br>
+Luotu: {{ area.created_at }} <br>
+<a href="chatroom">Siirry keskustelualueeseen</a>
 <hr>
 {% endfor %}
 <a href="/new_area">Lisää keskustelualue</a>
