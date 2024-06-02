@@ -21,10 +21,15 @@ Sovelluksen ominaisuuksia:
 # käynnistysohjeet
 
 Kloonaa repostorio omalle koneellesi ja siirry juurikansioon virtuaali ympäristössä.
+
 $ python3 -m venv venv
+
 $ source venv/bin/activate
+
 $ pip install -r ./requirements.txt
+
 $ psql < schema.sql
 
 Nyt pitäisi toimia sovellus komennolla
+
 $ flask run
