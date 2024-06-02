@@ -18,9 +18,13 @@ Sovelluksen ominaisuuksia:
 - Käyttäjä pystyy lisätä uuden keskustelualueen
 - Käyttäjä näkee milloin keskustelualue on luotu
 
-# ohjeet
-Jotta pystyt testaamaan sovellustani, psql:ään pitää lisätä
+# käynnistysohjeet
 
-```bash
-CREATE TABLE areas (id SERIAL PRIMARY KEY, topic TEXT, created_at TIMESTAMP);
-```
+Kloonaa repostorio omalle koneellesi ja siirry juurikansioon virtuaali ympäristössä.
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip install -r ./requirements.txt
+$ psql < schema.sql
+
+Nyt pitäisi toimia sovellus komennolla
+$ flask run
