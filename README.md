@@ -17,3 +17,10 @@ Sovelluksen ominaisuuksia:
 - Käyttäjä näkee keskutelualueiden määrän
 - Käyttäjä pystyy lisätä uuden keskustelualueen
 - Käyttäjä näkee milloin keskustelualue on luotu
+
+# ohjeet
+Jotta pystyt testaamaan sovellustani, psql:ään pitää lisätä
+
+```bash
+CREATE TABLE areas (id SERIAL PRIMARY KEY, topic TEXT, created_at TIMESTAMP);
+```
