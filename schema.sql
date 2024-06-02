@@ -1,0 +1,1 @@
+CREATE TABLE areas (id SERIAL PRIMARY KEY, topic TEXT, created_at TIMESTAMP);
