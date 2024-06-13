@@ -1,0 +1,7 @@
+<hr>
+{% for message in messages %}
+{{ message.message }} <br>
+{{ message.created_at }} <br>
+<hr>
+{% endfor %}
+<a href="/new_message">Lähetä viesti</a>
