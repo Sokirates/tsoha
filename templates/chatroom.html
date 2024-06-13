@@ -1,7 +1,17 @@
-<hr>
-{% for message in messages %}
-{{ message.message }} <br>
-{{ message.created_at }} <br>
-<hr>
-{% endfor %}
-<a href="/new_message">Lähetä viesti</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Keskustelualue</title>
+</head>
+<body>
+    <hr>
+    {% for message in messages %}
+        {{ message.message }} <br>
+        {{ message.created_at }} <br>
+        <hr>
+    {% endfor %}
+    <a href="/new_message">Lähetä viesti</a>
+    <br>
+    <a href="/">Takaisin</a>
+</body>
+</html>
