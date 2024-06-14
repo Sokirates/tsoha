@@ -6,7 +6,7 @@ CREATE TABLE areas (
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
-    area_id INTEGER REFERENCES areas(id),
+    area_id INTEGER REFERENCES areas,
     message TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
