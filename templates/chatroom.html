@@ -4,13 +4,14 @@
     <title>Keskustelualue</title>
 </head>
 <body>
+    <h1>Keskustelualueen viestit</h1>
     <hr>
     {% for message in messages %}
-        {{ message.message }} <br>
-        {{ message.created_at }} <br>
+        Viesti: {{ message.message }} <br>
+        Lähetetty: {{ message.created_at }} <br>
         <hr>
     {% endfor %}
-    <a href="/new_message">Lähetä viesti</a>
+    <a href="{{ url_for('new_message', area_id=area_id) }}">Lähetä viesti</a>
     <br>
     <a href="/">Takaisin</a>
 </body>

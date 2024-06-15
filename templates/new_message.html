@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Uusi viesti</title>
+    <title>Uusi Viesti</title>
 </head>
 <body>
-    <form action="/send_message" method="POST">
-        Viesti: <br>
-        <textarea name="message" rows="3" cols="40"></textarea>
-        <br>
+    <form action="{{ url_for('send_message') }}" method="post">
+        <input type="hidden" name="area_id" value="{{ area_id }}">
+        <label for="message">Viesti:</label>
+        <textarea name="message" rows="3" cols="40" required></textarea><br>
         <input type="submit" value="Lähetä">
     </form>
-    <a href="/chatroom">Takaisin keskustelualueeseen</a>
 </body>
 </html>
