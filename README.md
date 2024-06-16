@@ -20,6 +20,7 @@ Sovelluksen ominaisuuksia:
 - Käyttäjä näkee keskustelualueen viestit
 - Käyttäjä pystyy lisätä uuden viestin keskustelualueeseen
 - Käyttäjä pystyy luoda käyttäjätunnuksen
+- Käyttäjä pystyy kirjautumaan ja kirjautumaan ulos
 
 # käynnistysohjeet
 
