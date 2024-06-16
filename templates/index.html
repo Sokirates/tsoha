@@ -13,10 +13,12 @@
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a>
         <hr>
     {% endfor %}
+    {% if session.username %}
+        <a href="/logout">Kirjaudu ulos</a>
+    {% else %}
+        <a href="/login">Kirjaudu</a>
+    {% endif %}
+    <br>
     <a href="/new_area">Lisää keskustelualue</a>
-    <br>
-    <a href="/login">Kirjaudu</a>
-    <br>
-    <a href="/logout">Kirjaudu ulos</a>
 </body>
 </html>
