@@ -3,6 +3,7 @@ from flask import Flask
 from flask import redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
@@ -56,3 +57,15 @@ def send_message():
 @app.route("/new_message/<int:area_id>")
 def new_message(area_id):
     return render_template("new_message.html", area_id=area_id)
+
+@app.route("/new_account", methods=["GET", "POST"])
+def new_account():
+    if request.method == "POST":        
+        username = request.form["username"]
+        password = request.form["password"]
+        hash_value = generate_password_hash(password)
+        sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
+        db.session.execute(sql, {"username":username, "password":hash_value})
+        db.session.commit()
+        return redirect("/")
+    return render_template("new_account.html")

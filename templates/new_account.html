@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uusi Käyttäjä</title>
+</head>
+<body>
+    <h1>Luo uusi käyttäjä</h1>
+    <form action="{{ url_for('new_account') }}" method="post">
+        <label for="username">Käyttäjänimi:</label>
+        <input type="text" name="username" required><br>
+        <label for="password">Salasana:</label>
+        <input type="password" name="password" required><br>
+        <input type="submit" value="Luo käyttäjä">
+    </form>
+    <br>
+    <a href="/">Takaisin</a>
+</body>
+</html>
