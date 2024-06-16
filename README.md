@@ -17,6 +17,9 @@ Sovelluksen ominaisuuksia:
 - Käyttäjä näkee keskutelualueiden määrän
 - Käyttäjä pystyy lisätä uuden keskustelualueen
 - Käyttäjä näkee milloin keskustelualue on luotu
+- Käyttäjä näkee keskustelualueen viestit
+- Käyttäjä pystyy lisätä uuden viestin keskustelualueeseen
+- Käyttäjä pystyy luoda käyttäjätunnuksen
 
 # käynnistysohjeet
 
