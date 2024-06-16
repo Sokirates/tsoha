@@ -27,18 +27,18 @@ Sovelluksen ominaisuuksia:
 Kloonaa repostorio omalle koneellesi ja siirry juurikansioon virtuaali ympäristössä.
 
 ```bash
-$ python3 -m venv venv
+python3 -m venv venv
 ```
 ```bash
-$ source venv/bin/activate
+source venv/bin/activate
 ```
 ```bash
-$ pip install -r ./requirements.txt
+pip install -r ./requirements.txt
 ```
 ```bash
-$ psql < schema.sql
+psql < schema.sql
 ```
 Nyt pitäisi toimia sovellus komennolla
 ```bash
-$ flask run
+flask run
 ```
