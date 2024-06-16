@@ -1,12 +1,14 @@
 import datetime
+import os
 from flask import Flask
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://"
 db = SQLAlchemy(app)
 
@@ -58,8 +60,8 @@ def send_message():
 def new_message(area_id):
     return render_template("new_message.html", area_id=area_id)
 
-@app.route("/new_account", methods=["GET", "POST"])
-def new_account():
+@app.route("/register", methods=["GET", "POST"])
+def register():
     if request.method == "POST":        
         username = request.form["username"]
         password = request.form["password"]
@@ -67,5 +69,32 @@ def new_account():
         sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
         db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
-        return redirect("/")
-    return render_template("new_account.html")
+        return redirect("/login")
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        sql = text("SELECT id, password FROM users WHERE username=:username")
+        result = db.session.execute(sql, {"username": username})
+        user = result.fetchone()
+
+        if not user:
+            return "Invalid username or password"
+
+        hash_value = user.password
+        if check_password_hash(hash_value, password):
+            session["username"] = username
+            return redirect("/")
+        else:
+            return "Invalid username or password"
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")
