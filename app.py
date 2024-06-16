@@ -32,10 +32,14 @@ def add_discussion_area():
 
 @app.route("/chatroom/<int:id>")
 def chatroom(id):
+    sql = text("SELECT topic FROM areas WHERE id = :id")
+    result = db.session.execute(sql, {"id": id})
+    topic = result.scalar()
+
     sql = text("SELECT message, created_at FROM messages WHERE area_id = :id")
     result = db.session.execute(sql, {"id": id})
     messages = result.fetchall()
-    return render_template("chatroom.html", messages=messages, area_id=id)
+    return render_template("chatroom.html", messages=messages, area_id=id, topic=topic)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():

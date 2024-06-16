@@ -4,7 +4,7 @@
     <title>Keskustelualue</title>
 </head>
 <body>
-    <h1>Keskustelualueen viestit</h1>
+    <h1> {{ topic }} </h1>
     <hr>
     {% for message in messages %}
         Viesti: {{ message.message }} <br>
