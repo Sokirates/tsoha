@@ -42,8 +42,7 @@ def chatroom(id):
     sql = text("SELECT topic FROM areas WHERE id = :id")
     result = db.session.execute(sql, {"id": id})
     topic = result.scalar()
-
-    sql = text("SELECT message, created_at FROM messages WHERE area_id = :id")
+    sql = text("SELECT message, created_at, sender FROM messages WHERE area_id = :id")
     result = db.session.execute(sql, {"id": id})
     messages = result.fetchall()
     return render_template("chatroom.html", messages=messages, area_id=id, topic=topic)
@@ -52,10 +51,11 @@ def chatroom(id):
 def send_message():
     message = request.form["message"]
     area_id = request.form["area_id"]
-    sql = text("INSERT INTO messages (area_id, message, created_at) VALUES (:area_id, :message, :created_at)")
+    sender_username = session['username']
+    sql = text("INSERT INTO messages (area_id, message, created_at, sender) VALUES (:area_id, :message, :created_at, :sender)")
     db.session.execute(
         sql,
-        {"area_id": area_id, "message": message, "created_at": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+        {"area_id": area_id, "message": message, "created_at": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"), "sender": sender_username}
     )
     db.session.commit()
     return redirect(url_for('chatroom', id=area_id))

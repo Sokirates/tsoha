@@ -9,6 +9,7 @@
     {% for message in messages %}
         Viesti: {{ message.message }} <br>
         Lähetetty: {{ message.created_at }} <br>
+        Lähettäjä: {{ message.sender }}
         <hr>
     {% endfor %}
 
