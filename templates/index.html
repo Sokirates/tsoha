@@ -10,6 +10,7 @@
     {% for area in areas %}
         Aihe: {{ area.topic }} <br>
         Luotu: {{ area.created_at }} <br>
+        Luoja: {{ area.creator }} <br>
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a>
         <hr>
     {% endfor %}

@@ -9,7 +9,7 @@ def is_logged_in():
 
 @app.route("/")
 def index():
-    result = db.session.execute(text("SELECT id, topic, created_at FROM areas"))
+    result = db.session.execute(text("SELECT id, topic, created_at, creator FROM areas"))
     areas = result.fetchall()
     return render_template("index.html", count=len(areas), areas=areas)
 
@@ -28,10 +28,11 @@ def add_discussion_area():
         flash("Aihe ei voi olla tyhjä.")
         return redirect(url_for('new'))
     
-    sql = text("INSERT INTO areas (topic, created_at) VALUES (:topic, :created_at)")
+    creator_username = session['username']
+    sql = text("INSERT INTO areas (topic, created_at, creator) VALUES (:topic, :created_at, :creator)")
     db.session.execute(
         sql,
-        {"topic": topic, "created_at": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+        {"topic": topic, "created_at": datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"), "creator": creator_username}
     )
     db.session.commit()
     return redirect("/")
