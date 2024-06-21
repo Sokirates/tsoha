@@ -4,6 +4,9 @@ from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
 
+def is_logged_in():
+    return "username" in session
+
 @app.route("/")
 def index():
     result = db.session.execute(text("SELECT id, topic, created_at FROM areas"))
@@ -12,6 +15,9 @@ def index():
 
 @app.route("/new_area")
 def new():
+    if not is_logged_in():
+        flash("Kirjaudu sisään ennen keskustelualueen lisäämistä")
+        return redirect(url_for('index'))
     return render_template("new_area.html")
 
 @app.route("/add_discussion_area", methods=["POST"])

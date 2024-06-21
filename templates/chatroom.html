@@ -4,15 +4,22 @@
     <title>Keskustelualue</title>
 </head>
 <body>
-    <h1> {{ topic }} </h1>
+    <h1>{{ topic }}</h1>
     <hr>
     {% for message in messages %}
         Viesti: {{ message.message }} <br>
         Lähetetty: {{ message.created_at }} <br>
         <hr>
     {% endfor %}
-    <a href="{{ url_for('new_message', area_id=area_id) }}">Lähetä viesti</a>
-    <br>
+
+    {% if session.username %}
+        <a href="{{ url_for('new_message', area_id=area_id) }}">Lähetä viesti</a>
+        <br>
+    {% else %}
+        <p>Kirjaudu sisään ennen kuin voit lähettää viestin</p>
+    {% endif %}
+    
     <a href="/">Takaisin</a>
 </body>
 </html>
+
