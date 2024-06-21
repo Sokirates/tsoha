@@ -1,5 +1,5 @@
 import datetime
-from flask import redirect, render_template, request, url_for, session
+from flask import redirect, render_template, request, url_for, session, flash
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
@@ -16,7 +16,12 @@ def new():
 
 @app.route("/add_discussion_area", methods=["POST"])
 def add_discussion_area():
-    topic = request.form["topic"]
+    topic = request.form["topic"].strip()
+
+    if not topic:
+        flash("Aihe ei voi olla tyhjä.")
+        return redirect(url_for('new'))
+    
     sql = text("INSERT INTO areas (topic, created_at) VALUES (:topic, :created_at)")
     db.session.execute(
         sql,
