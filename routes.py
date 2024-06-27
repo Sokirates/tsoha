@@ -65,7 +65,7 @@ def send_message():
 def new_message(area_id):
     return render_template("new_message.html", area_id=area_id)
 
-def is_valid_password(password):
+def password_errors(password):
     errors = []
     if len(password) < 8:
         errors.append("Salasanan pitää olla väh. 8 merkkiä pitkä")
@@ -73,9 +73,17 @@ def is_valid_password(password):
         errors.append("Salasanan pitää sisältää suuri kirjain")
     if not re.search(r"[0-9]", password):
         errors.append("Salasanan pitää sisältää numeron")
-    for error in errors:
-        flash(error)
-    return len(errors) == 0
+    return errors
+
+def username_errors(username):
+    errors = []
+    if len(username) == 0:
+        errors.append("Käyttäjätunnus ei voi olla tyhjä")
+    result = db.session.execute(text("SELECT id FROM users WHERE username = :username"), {"username": username})
+    existing_user = result.fetchone()
+    if existing_user:
+        errors.append("Käyttäjätunnus on jo käytössä")
+    return errors
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -83,12 +91,20 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
+        errors = []
 
         if password != confirm_password:
-            flash("Salasanat eivät täsmää")
-            return render_template("register.html")
+            errors.append("Salasanat eivät täsmää")
         
-        if not is_valid_password(password):
+        if password_errors(password):
+            errors.extend(password_errors(password))
+
+        if username_errors(username):
+            errors.extend(username_errors(username))
+        
+        if errors:
+            for error in errors:
+                flash(error)
             return render_template("register.html")
         
         hash_value = generate_password_hash(password)
