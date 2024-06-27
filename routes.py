@@ -82,8 +82,15 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        if password != confirm_password:
+            flash("Salasanat eivät täsmää")
+            return render_template("register.html")
+        
         if not is_valid_password(password):
             return render_template("register.html")
+        
         hash_value = generate_password_hash(password)
         sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
         db.session.execute(sql, {"username": username, "password": hash_value})
