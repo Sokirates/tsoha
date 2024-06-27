@@ -3,7 +3,7 @@ from flask import redirect, render_template, request, url_for, session, flash
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
-from validations import username_errors, password_errors
+from validations import validate_password, validate_topic, validate_username
 
 @app.route("/")
 def index():
@@ -19,8 +19,10 @@ def new():
 def add_discussion_area():
     topic = request.form["topic"].strip()
 
-    if not topic:
-        flash("Aihe ei voi olla tyhjä.")
+    errors = validate_topic(topic)
+    if errors:
+        for error in errors:
+            flash(error)
         return redirect(url_for('new'))
     
     creator_username = session['username']
@@ -70,11 +72,11 @@ def register():
         if password != confirm_password:
             errors.append("Salasanat eivät täsmää")
         
-        if password_errors(password):
-            errors.extend(password_errors(password))
+        if validate_password(password):
+            errors.extend(validate_password(password))
 
-        if username_errors(username):
-            errors.extend(username_errors(username))
+        if validate_username(username):
+            errors.extend(validate_username(username))
         
         if errors:
             for error in errors:

@@ -2,7 +2,7 @@ from sqlalchemy import text
 from app import db
 import re
 
-def password_errors(password):
+def validate_password(password):
     errors = []
     if len(password) < 8:
         errors.append("Salasanan pitää olla väh. 8 merkkiä pitkä")
@@ -12,7 +12,7 @@ def password_errors(password):
         errors.append("Salasanan pitää sisältää numeron")
     return errors
 
-def username_errors(username):
+def validate_username(username):
     errors = []
     if len(username) == 0:
         errors.append("Käyttäjätunnus ei voi olla tyhjä")
@@ -20,4 +20,12 @@ def username_errors(username):
     existing_user = result.fetchone()
     if existing_user:
         errors.append("Käyttäjätunnus on jo käytössä")
+    return errors
+
+def validate_topic(topic):
+    errors = []
+    if len(topic) > 70:
+        errors.append("Aihe ei voi olla yli 70 merkkiä pitkä")
+    elif len(topic) == 0:
+        errors.append("Aihe ei voi olla tyhjä")
     return errors
