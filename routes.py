@@ -3,6 +3,7 @@ from flask import redirect, render_template, request, url_for, session, flash
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
+import re
 
 def is_logged_in():
     return "username" in session
@@ -64,11 +65,25 @@ def send_message():
 def new_message(area_id):
     return render_template("new_message.html", area_id=area_id)
 
+def is_valid_password(password):
+    errors = []
+    if len(password) < 8:
+        errors.append("Salasanan pitää olla väh. 8 merkkiä pitkä")
+    if not re.search(r"[A-Z]", password):
+        errors.append("Salasanan pitää sisältää suuri kirjain")
+    if not re.search(r"[0-9]", password):
+        errors.append("Salasanan pitää sisältää numeron")
+    for error in errors:
+        flash(error)
+    return len(errors) == 0
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        if not is_valid_password(password):
+            return render_template("register.html")
         hash_value = generate_password_hash(password)
         sql = text("INSERT INTO users (username, password) VALUES (:username, :password)")
         db.session.execute(sql, {"username": username, "password": hash_value})
