@@ -3,7 +3,7 @@ from flask import redirect, render_template, request, url_for, session, flash
 from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
-import re
+from validations import username_errors, password_errors
 
 def is_logged_in():
     return "username" in session
@@ -64,26 +64,6 @@ def send_message():
 @app.route("/new_message/<int:area_id>")
 def new_message(area_id):
     return render_template("new_message.html", area_id=area_id)
-
-def password_errors(password):
-    errors = []
-    if len(password) < 8:
-        errors.append("Salasanan pitää olla väh. 8 merkkiä pitkä")
-    if not re.search(r"[A-Z]", password):
-        errors.append("Salasanan pitää sisältää suuri kirjain")
-    if not re.search(r"[0-9]", password):
-        errors.append("Salasanan pitää sisältää numeron")
-    return errors
-
-def username_errors(username):
-    errors = []
-    if len(username) == 0:
-        errors.append("Käyttäjätunnus ei voi olla tyhjä")
-    result = db.session.execute(text("SELECT id FROM users WHERE username = :username"), {"username": username})
-    existing_user = result.fetchone()
-    if existing_user:
-        errors.append("Käyttäjätunnus on jo käytössä")
-    return errors
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
