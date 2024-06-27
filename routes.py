@@ -43,7 +43,7 @@ def chatroom(id):
     sql = text("SELECT topic FROM areas WHERE id = :id")
     result = db.session.execute(sql, {"id": id})
     topic = result.scalar()
-    sql = text("SELECT message, created_at, sender FROM messages WHERE area_id = :id ORDER BY created_at DESC")
+    sql = text("SELECT message, created_at, sender FROM messages WHERE area_id = :id")
     result = db.session.execute(sql, {"id": id})
     messages = result.fetchall()
     return render_template("chatroom.html", messages=messages, area_id=id, topic=topic)
