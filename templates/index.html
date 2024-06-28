@@ -15,15 +15,19 @@
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a> <br>
         {% if session.username == area.creator %}
         <form action="/delete_area/{{ area.id }}" method="post">
-            <input type="submit" value="Poista">
+            <input type="submit" value="Poista keskustelualue">
         </form>
         {% endif %}
-        <br>
         {% if user_id %}
             {% if user_id not in area.liked_users %}
                 <form action="/like_area/{{ area.id }}" method="post">
                     <input type="submit" value="Tykkää">
                 </form>
+            {% else %}
+                <form action="/unlike_area/{{ area.id }}" method="post">
+                    <input type="submit" value="Poista tykkäys">
+                </form>
+        
             {% endif %}
         {% endif %}
         <hr>

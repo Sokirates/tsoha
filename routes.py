@@ -20,6 +20,17 @@ def like_area(area_id):
         db.session.rollback()
     return redirect("/")
 
+@app.route("/unlike_area/<int:area_id>", methods=["POST"])
+def unlike_area(area_id):
+    user_id = session.get("user_id")
+    try:
+        sql = text("DELETE FROM areas_likes WHERE area_id = :area_id AND user_id = :user_id")
+        db.session.execute(sql, {"area_id": area_id, "user_id": user_id})
+        db.session.commit()
+    except:
+        db.session.rollback()
+    return redirect("/")
+
 @app.route("/")
 def index():
     try:
