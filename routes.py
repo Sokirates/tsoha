@@ -44,7 +44,8 @@ def index():
         """)
         result = db.session.execute(sql)
         areas = result.fetchall()
-        return render_template("index.html", areas=areas, user_id=session.get("user_id"))
+        count = len(areas)
+        return render_template("index.html", areas=areas, user_id=session.get("user_id"), count=count)
 
     except:
         return redirect("/")
