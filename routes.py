@@ -11,6 +11,20 @@ def index():
     areas = result.fetchall()
     return render_template("index.html", count=len(areas), areas=areas)
 
+@app.route("/delete_area/<int:area_id>", methods=["POST"])
+def delete_area(area_id):
+    try:
+        sql_delete_messages = text("DELETE FROM messages WHERE area_id = :area_id")
+        db.session.execute(sql_delete_messages, {"area_id": area_id})
+        
+        sql_delete_area = text("DELETE FROM areas WHERE id = :id")
+        db.session.execute(sql_delete_area, {"id": area_id})
+        db.session.commit()
+        return redirect("/")
+    except:
+        db.session.rollback()
+    return redirect("/")
+
 @app.route("/new_area")
 def new():
     return render_template("new_area.html")
