@@ -25,6 +25,24 @@ def delete_area(area_id):
         db.session.rollback()
     return redirect("/")
 
+@app.route("/delete_message/<int:message_id>", methods=["POST"])
+def delete_message(message_id):
+    try:
+        sql = text("SELECT area_id FROM messages WHERE id = :message_id")
+        result = db.session.execute(sql, {"message_id": message_id})
+        area_id = result.fetchone()[0]
+
+        sql_delete_message = text("DELETE FROM messages WHERE id = :message_id")
+        db.session.execute(sql_delete_message, {"message_id": message_id})
+        db.session.commit()
+
+        return redirect("/chatroom/{area_id}")
+    except:
+        db.session.rollback()
+        print(f"Virhe viestin poistamisessa {message_id}: {e}")
+        return redirect("/")
+
+
 @app.route("/new_area")
 def new():
     return render_template("new_area.html")
@@ -53,7 +71,7 @@ def chatroom(id):
     sql = text("SELECT topic FROM areas WHERE id = :id")
     result = db.session.execute(sql, {"id": id})
     topic = result.scalar()
-    sql = text("SELECT message, created_at, sender FROM messages WHERE area_id = :id")
+    sql = text("SELECT id, message, created_at, sender FROM messages WHERE area_id = :id")
     result = db.session.execute(sql, {"id": id})
     messages = result.fetchall()
     return render_template("chatroom.html", messages=messages, area_id=id, topic=topic)
