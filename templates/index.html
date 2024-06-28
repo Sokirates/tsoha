@@ -12,9 +12,11 @@
         Luotu: {{ area.created_at }} <br>
         Luoja: {{ area.creator }} <br>
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a>
+        {% if session.username == area.creator %}
         <form action="/delete_area/{{ area.id }}" method="post">
             <input type="submit" value="Poista">
         </form>
+        {% endif %}
         <hr>
     {% endfor %}
 

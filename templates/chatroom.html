@@ -10,9 +10,11 @@
         Viesti: {{ message.message }} <br>
         Lähetetty: {{ message.created_at }} <br>
         Lähettäjä: {{ message.sender }}
-        <form action="/delete_message/{{ message.id }}" method="post">
-            <input type="submit" value="Poista">
-        </form>
+        {% if session.username == message.sender %}
+            <form action="/delete_message/{{ message.id }}" method="post">
+                <input type="submit" value="Poista">
+            </form>
+        {% endif %}
         <hr>
     {% endfor %}
 
