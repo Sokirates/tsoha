@@ -18,3 +18,11 @@ CREATE TABLE messages (
     created_at TIMESTAMP NOT NULL,
     sender TEXT
 );
+
+CREATE TABLE areas_likes (
+    id SERIAL PRIMARY KEY,
+    area_id INTEGER REFERENCES areas ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users ON DELETE CASCADE,
+    likes INTEGER,
+    liked_at TIMESTAMP NOT NULL
+);

@@ -11,11 +11,20 @@
         Aihe: {{ area.topic }} <br>
         Luotu: {{ area.created_at }} <br>
         Luoja: {{ area.creator }} <br>
-        <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a>
+        Tykkäykset: {{area.likes}} <br>
+        <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a> <br>
         {% if session.username == area.creator %}
         <form action="/delete_area/{{ area.id }}" method="post">
             <input type="submit" value="Poista">
         </form>
+        {% endif %}
+        <br>
+        {% if user_id %}
+            {% if user_id not in area.liked_users %}
+                <form action="/like_area/{{ area.id }}" method="post">
+                    <input type="submit" value="Tykkää">
+                </form>
+            {% endif %}
         {% endif %}
         <hr>
     {% endfor %}

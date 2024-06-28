@@ -5,11 +5,38 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
 from validations import validate_password, validate_topic, validate_username
 
+from flask import redirect, session, url_for
+from sqlalchemy import text
+
+@app.route("/like_area/<int:area_id>", methods=["POST"])
+def like_area(area_id):
+    user_id = session.get("user_id")
+    try:        
+        sql = text("INSERT INTO areas_likes (area_id, user_id, likes, liked_at) VALUES (:area_id, :user_id, 1, NOW())")
+        db.session.execute(sql, {"area_id": area_id, "user_id": user_id})
+        db.session.commit()
+    
+    except:
+        db.session.rollback()
+    return redirect("/")
+
 @app.route("/")
 def index():
-    result = db.session.execute(text("SELECT id, topic, created_at, creator FROM areas ORDER BY created_at DESC"))
-    areas = result.fetchall()
-    return render_template("index.html", count=len(areas), areas=areas)
+    try:
+        sql = text("""
+            SELECT a.id, a.topic, a.created_at, a.creator, COALESCE(SUM(al.likes), 0) AS likes,
+                   ARRAY_AGG(al.user_id) AS liked_users
+            FROM areas a
+            LEFT JOIN areas_likes al ON a.id = al.area_id 
+            GROUP BY a.id, a.topic, a.created_at, a.creator
+            ORDER BY a.created_at DESC
+        """)
+        result = db.session.execute(sql)
+        areas = result.fetchall()
+        return render_template("index.html", areas=areas, user_id=session.get("user_id"))
+
+    except:
+        return redirect("/")
 
 @app.route("/delete_area/<int:area_id>", methods=["POST"])
 def delete_area(area_id):
@@ -39,7 +66,6 @@ def delete_message(message_id):
     except:
         db.session.rollback()
         return redirect("/")
-
 
 @app.route("/new_area")
 def new():
@@ -135,6 +161,7 @@ def login():
 
         hash_value = user.password
         if check_password_hash(hash_value, password):
+            session["user_id"] = user.id
             session["username"] = username
             return redirect("/")
         else:
