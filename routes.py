@@ -35,11 +35,9 @@ def delete_message(message_id):
         sql_delete_message = text("DELETE FROM messages WHERE id = :message_id")
         db.session.execute(sql_delete_message, {"message_id": message_id})
         db.session.commit()
-
-        return redirect("/chatroom/{area_id}")
+        return redirect(f"/chatroom/{area_id}")
     except:
         db.session.rollback()
-        print(f"Virhe viestin poistamisessa {message_id}: {e}")
         return redirect("/")
 
 
