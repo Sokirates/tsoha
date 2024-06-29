@@ -34,11 +34,14 @@ def unlike_area(area_id):
 def index():
     try:
         sql = text("""
-            SELECT a.id, a.topic, a.created_at, a.creator, COALESCE(SUM(al.likes), 0) AS likes,
-                   ARRAY_AGG(al.user_id) AS liked_users
+            SELECT a.id, a.topic, a.created_at, a.creator, 
+                   COALESCE(SUM(al.likes), 0) AS likes,
+                   ARRAY_AGG(al.user_id) AS liked_users,
+                   COALESCE(av.visits, 0) AS visit_count
             FROM areas a
             LEFT JOIN areas_likes al ON a.id = al.area_id 
-            GROUP BY a.id, a.topic, a.created_at, a.creator
+            LEFT JOIN areas_visits av ON a.id = av.area_id
+            GROUP BY a.id, a.topic, a.created_at, a.creator, av.visits
             ORDER BY a.created_at DESC
         """)
         result = db.session.execute(sql)
@@ -103,12 +106,25 @@ def add_discussion_area():
 
 @app.route("/chatroom/<int:id>")
 def chatroom(id):
-    sql = text("SELECT topic FROM areas WHERE id = :id")
-    result = db.session.execute(sql, {"id": id})
-    topic = result.scalar()
-    sql = text("SELECT id, message, created_at, sender FROM messages WHERE area_id = :id")
-    result = db.session.execute(sql, {"id": id})
-    messages = result.fetchall()
+    sql_topic = text("SELECT topic FROM areas WHERE id = :id")
+    result_topic = db.session.execute(sql_topic, {"id": id})
+    topic = result_topic.scalar()
+
+    sql_messages = text("SELECT id, message, created_at, sender FROM messages WHERE area_id = :id")
+    result_messages = db.session.execute(sql_messages, {"id": id})
+    messages = result_messages.fetchall()
+
+    sql_check = text("SELECT visits FROM areas_visits WHERE area_id = :area_id")
+    result_check = db.session.execute(sql_check, {"area_id": id})
+
+    if result_check.fetchone() is None:
+        sql_insert = text("INSERT INTO areas_visits (area_id, visits) VALUES (:area_id, 1)")
+        db.session.execute(sql_insert, {"area_id": id})
+    else:
+        sql_update_visits = text("UPDATE areas_visits SET visits = visits + 1 WHERE area_id = :area_id")
+        db.session.execute(sql_update_visits, {"area_id": id})
+    
+    db.session.commit()
     return render_template("chatroom.html", messages=messages, area_id=id, topic=topic)
 
 @app.route("/send_message", methods=["POST"])

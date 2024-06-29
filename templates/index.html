@@ -11,7 +11,8 @@
         Aihe: {{ area.topic }} <br>
         Luotu: {{ area.created_at }} <br>
         Luoja: {{ area.creator }} <br>
-        Tykkäykset: {{area.likes}} <br>
+        Tykkäykset: {{ area.likes }} <br>
+        Vierailut: {{ area.visit_count }} <br>
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a> <br>
         {% if session.username == area.creator %}
         <form action="/delete_area/{{ area.id }}" method="post">
