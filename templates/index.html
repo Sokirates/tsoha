@@ -9,7 +9,7 @@
     <hr>
     {% for area in areas %}
         Aihe: {{ area.topic }} <br>
-        Luotu: {{ area.created_at }} <br>
+        🕐: {{ area.created_at }} <br>
         Luoja: {{ area.creator }} <br>
         ♥ {{ area.likes }} <br>
         👁️ {{ area.visit_count }} <br>
@@ -22,11 +22,11 @@
         {% if session.username %}
             {% if user_id not in area.liked_users %}
                 <form action="/like_area/{{ area.id }}" method="post">
-                    <input type="submit" value="♥">
+                    <input type="submit" value="♡">
                 </form>
             {% else %}
                 <form action="/unlike_area/{{ area.id }}" method="post">
-                    <input type="submit" value="♡">
+                    <input type="submit" value="♥">
                 </form>
         
             {% endif %}
