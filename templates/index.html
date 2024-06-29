@@ -11,7 +11,7 @@
         Aihe: {{ area.topic }} <br>
         Luotu: {{ area.created_at }} <br>
         Luoja: {{ area.creator }} <br>
-        Tykkäykset: {{ area.likes }} <br>
+        ♥ {{ area.likes }} <br>
         Vierailut: {{ area.visit_count }} <br>
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a> <br>
         {% if session.username == area.creator %}
@@ -19,14 +19,14 @@
             <input type="submit" value="Poista keskustelualue">
         </form>
         {% endif %}
-        {% if user_id %}
+        {% if session.username %}
             {% if user_id not in area.liked_users %}
                 <form action="/like_area/{{ area.id }}" method="post">
-                    <input type="submit" value="Tykkää">
+                    <input type="submit" value="♥">
                 </form>
             {% else %}
                 <form action="/unlike_area/{{ area.id }}" method="post">
-                    <input type="submit" value="Poista tykkäys">
+                    <input type="submit" value="♡">
                 </form>
         
             {% endif %}
