@@ -26,3 +26,9 @@ CREATE TABLE areas_likes (
     likes INTEGER,
     liked_at TIMESTAMP NOT NULL
 );
+
+CREATE TABLE areas_visits (
+    id SERIAL PRIMARY KEY,
+    area_id INTEGER REFERENCES areas ON DELETE CASCADE,
+    visits INTEGER
+);
