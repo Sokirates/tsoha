@@ -4,10 +4,10 @@ Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueil
 
 Sovelluksen ominaisuuksia:
 
-* Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen luojan, tykkäykset ja kävijä määrää.
+* Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen luojan, tykkäykset ja kävijämäärän.
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
 * Kirjauduttua sisään käyttäjä voi luoda uuden keskustelualueen antamalla aiheen, kirjoittaa uuden viestin olemassa olevaan alueeseen ja tykätä keskustelualueesta.
-* Käyttäjä voi kummiskin mennä keskustelualueeseen ilman kirjautumista sisään.
+* Käyttäjä voi kuitenkin mennä keskustelualueeseen ilman kirjautumista sisään.
 
 # Käynnistysohjeet
 
