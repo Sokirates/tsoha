@@ -4,7 +4,6 @@ from sqlalchemy import text
 from werkzeug.security import check_password_hash, generate_password_hash
 from app import app, db
 from validations import validate_password, validate_topic, validate_username
-
 from flask import redirect, session, url_for
 from sqlalchemy import text
 
@@ -169,7 +168,8 @@ def login():
         user = result.fetchone()
 
         if not user:
-            return "Invalid username or password"
+            flash("Väärä käyttäjätunnus tai salasana")
+            return redirect("/login")
 
         hash_value = user.password
         if check_password_hash(hash_value, password):
@@ -177,7 +177,8 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "Invalid username or password"
+            flash("Väärä käyttäjätunnus tai salasana")
+            return redirect("/login")
 
     return render_template("login.html")
 
