@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{{ topic }}</h1>
+    <h1 class="custom-title">{{ topic }}</h1>
     {% for message in messages %}
     <div class="box2">
         <span class="box-title">{{ message.sender }} </span>

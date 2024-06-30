@@ -2,7 +2,9 @@
 <html>
 <head>
     <title>Uusi Viesti</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+    <h1 class="custom-title">Uusi viesti</h1>
 <body>
     <form action="{{ url_for('send_message') }}" method="post">
         <input type="hidden" name="area_id" value="{{ area_id }}">

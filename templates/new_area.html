@@ -2,24 +2,25 @@
 <html>
 <head>
     <title>Uusi viesti</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Lisää uusi keskustelualue</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form action="/add_discussion_area" method="POST">
-        Aihe: <br>
-        <textarea name="topic" rows="3" cols="40"></textarea>
-        <br>
-        <input type="submit" value="Lisää">
-    </form>
-    <a href="/">Takaisin</a>
+  <h1 class="custom-title">Lisää uusi keskustelualue</h1>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <form action="/add_discussion_area" method="POST">
+      Aihe: <br>
+      <textarea name="topic" rows="3" cols="40"></textarea>
+      <br>
+      <input type="submit" value="Lisää">
+  </form>
+  <a href="/">Takaisin</a>
 </body>
 </html>

@@ -3,8 +3,9 @@
 <head>
     <title>Uusi Käyttäjä</title>
 </head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <h1 class="custom-title">Luo uusi käyttäjä</h1>
 <body>
-    <h1>Luo uusi käyttäjä</h1>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
