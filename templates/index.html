@@ -2,16 +2,19 @@
 <html>
 <head>
     <title>Keskustelualueet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 </head>
 <body>
-    <h1>Keskustelualueet</h1>
+    <h1 class="custom-title">Keskustelualueet</h1>
     keskustelualueiden määrä: {{ count }}
-    <hr>
     {% for area in areas %}
-        Aihe: {{ area.topic }} <br>
+    <div class="box1">
+        <div class="box-title">{{ area.topic }}</div>
+        <p>
         🕐: {{ area.created_at }} <br>
-        Luoja: {{ area.creator }} <br>
-        ♥ {{ area.likes }} <br>
+        Luoja: {{ area.creator }}               
+        ♥ {{ area.likes }}
         👁️ {{ area.visit_count }} <br>
         <a href="/chatroom/{{ area.id }}">Siirry keskustelualueeseen</a> <br>
         {% if session.username == area.creator %}
@@ -31,7 +34,8 @@
         
             {% endif %}
         {% endif %}
-        <hr>
+    </p>
+    </div>
     {% endfor %}
 
     {% if session.username %}
@@ -44,3 +48,4 @@
     {% endif %}
 </body>
 </html>
+

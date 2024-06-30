@@ -2,20 +2,23 @@
 <html>
 <head>
     <title>Keskustelualue</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>{{ topic }}</h1>
-    <hr>
     {% for message in messages %}
-        Viesti: {{ message.message }} <br>
-        Lähetetty: {{ message.created_at }} <br>
-        Lähettäjä: {{ message.sender }}
+    <div class="box2">
+        <span class="box-title">{{ message.sender }} </span>
+        <span class="message-time">{{ message.created_at }}</span>
+        <p>
+        {{ message.message }} <br>
         {% if session.username == message.sender %}
             <form action="/delete_message/{{ message.id }}" method="post">
                 <input type="submit" value="Poista">
             </form>
         {% endif %}
-        <hr>
+        </p>
+        </div>
     {% endfor %}
 
     {% if session.username %}

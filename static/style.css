@@ -1,0 +1,55 @@
+.box1 {
+    margin: 2em 0;
+    background: #FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+}
+.box1 .box-title {
+    font-size: 1.2em;
+    background: #5fc2f5;
+    padding: 4px;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+.box1 p {
+    padding: 15px 20px;
+    margin: 0;
+}
+
+.box2 {
+    position: relative;
+    margin: 2em 0;
+    padding: 0.5em 1em;
+    border: solid 3px #62c1ce;
+}
+.box2 .box-title {
+    position: absolute;
+    display: inline-block;
+    top: -27px;
+    left: -3px;
+    padding: 0 9px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 17px;
+    background: #62c1ce;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+.box2 p {
+    margin: 0; 
+    padding: 0;
+}
+
+.custom-title {
+    color: #5fc2f5;
+}
+
+.message-time {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #999;
+    font-size: 12px;
+}
